@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const Joi = require('joi');
 const logger = require('./middleware/logger');
+const genres = require('./routes/genres');
 const home = require('./routes/home');
 const express = require('express');
 const app = express();
@@ -17,6 +18,7 @@ app.use(express.static('public'));
 app.use(helmet());
 app.use(logger);
 
+app.use('/api/genres', genres);
 app.use('/', home);
 
 // Configuration
