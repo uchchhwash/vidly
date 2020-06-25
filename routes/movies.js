@@ -1,4 +1,4 @@
-const { Movie, validate } = require("../models/movie");
+const { Movie, validate, validatePatch } = require("../models/movie");
 const { Genre } = require("../models/genre");
 const mongoose = require("mongoose");
 const express = require("express");
@@ -28,9 +28,9 @@ router.get("/", async(req, res) => {
     movie = await movie.save();
 
     res.send(movie);
-});
+})
 
-router.put('/:id', async(req, res) => {
+.put('/:id', async(req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
@@ -50,8 +50,22 @@ router.put('/:id', async(req, res) => {
     if (!movie) return res.status(404).send('The movie with the given ID was not found.');
 
     res.send(movie);
+})
+
+.patch('/:id', async(req, res) => {
+    const { error } = validatePatch(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    if (req.body.genreId) {
+        const genre = await Genre.findById(req.body.genreId);
+        if (!genre) return res.status(400).send('Invalid genre.');
+    }
+
+    const movie = await Movie.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
+
+    if (!movie) return res.status(404).send('The movie with the given ID was not found.');
+
+    res.send(movie);
 });
-
-
 
 module.exports = router;

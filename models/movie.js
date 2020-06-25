@@ -39,5 +39,16 @@ function validateMovie(movie) {
     return Joi.validate(movie, schema);
 }
 
+function validateMovieForPatch(movie) {
+    const schema = {
+        title: Joi.string().min(5).max(50),
+        genreId: Joi.string(),
+        numberInStock: Joi.number().min(0),
+        dailyRentalRate: Joi.number().min(0)
+    };
+
+    return Joi.validate(movie, schema);
+}
 exports.Movie = Movie;
 exports.validate = validateMovie;
+exports.validatePatch = validateMovieForPatch;
