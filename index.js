@@ -3,12 +3,17 @@ const config = require('config');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const Joi = require('joi');
+const mongoose = require("mongoose");
 const logger = require('./middleware/logger');
 const courses = require('./routes/courses');
 const genres = require('./routes/genres');
 const home = require('./routes/home');
 const express = require('express');
 const app = express();
+
+mongoose.connect("mongodb://localhost/vidly")
+    .then(() => console.log("Connected to MongoDB..."))
+    .catch((err) => console.error("Could Not Connect to MongoDB"))
 
 app.set('view engine', 'pug');
 app.set('views', './views'); // default
