@@ -59,17 +59,30 @@ router.post('/', async(req, res) => {
     res.send(customer);
 });
 
-
 router.put('/:id', async(req, res) => {
     const { error } = validateCustomer(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
     const customer = await Customer.findByIdAndUpdate(req.params.id, {
-        name: req.body.name,
-        isGold: req.body.isGold,
-        phone: req.body.phone,
-        email: req.body.email
-    }, { new: true });
+        $set: req.body
+    }, {
+        new: true
+    });
+
+    if (!customer) return res.status(404).send('The customer with the given ID was not found.');
+
+    res.send(customer);
+});
+
+router.patch('/:id', async(req, res) => {
+    const { error } = validateCustomerPatchReqest(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const customer = await Customer.findByIdAndUpdate(req.params.id, {
+        $set: req.body
+    }, {
+        new: true
+    });
 
     if (!customer) return res.status(404).send('The customer with the given ID was not found.');
 
@@ -84,7 +97,16 @@ function validateCustomer(customer) {
         phone: Joi.string().min(11).required(),
         email: Joi.string().email({ minDomainAtoms: 2 }).required()
     };
+    return Joi.validate(customer, schema);
+}
 
+function validateCustomerPatchReqest(customer) {
+    const schema = {
+        name: Joi.string().min(5),
+        isGold: Joi.boolean(),
+        phone: Joi.string().min(11),
+        email: Joi.string().email({ minDomainAtoms: 2 })
+    };
     return Joi.validate(customer, schema);
 }
 module.exports = router;
