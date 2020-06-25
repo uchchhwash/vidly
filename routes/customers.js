@@ -89,6 +89,13 @@ router.patch('/:id', async(req, res) => {
     res.send(customer);
 });
 
+router.get('/:id', async(req, res) => {
+    const customer = await Customer.findById(req.params.id);
+
+    if (!customer) return res.status(404).send('The customer with the given ID was not found.');
+
+    res.send(customer);
+});
 
 function validateCustomer(customer) {
     const schema = {
