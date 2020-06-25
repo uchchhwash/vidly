@@ -9,9 +9,12 @@ const customerSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 5,
-        maxlength: 50
+        maxlength: 100
     },
-    isGold: Boolean || false,
+    isGold: {
+        type: Boolean,
+        default: false
+    },
     phone: {
         type: String,
         required: true,
@@ -36,5 +39,21 @@ const customerSchema = new mongoose.Schema({
 
 const Customer = new mongoose.model("Customer", customerSchema);
 
+router.get('/', async(req, res) => {
+    const customers = await Customer.find().sort("name");
+    res.send(customers);
+});
 
+
+
+function validateCustomer(customer) {
+    const schema = {
+        name: Joi.string().min(5).required(),
+        isGold: Joi.boolean(),
+        phone: Joi.string().min(11).required(),
+        email: Joi.string().email({ minDomainAtoms: 2 }).required()
+    };
+
+    return Joi.validate(customer, schema);
+}
 module.exports = router;
