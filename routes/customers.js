@@ -42,9 +42,9 @@ const Customer = new mongoose.model("Customer", customerSchema);
 router.get('/', async(req, res) => {
     const customers = await Customer.find().sort("name");
     res.send(customers);
-});
+})
 
-router.post('/', async(req, res) => {
+.post('/', async(req, res) => {
     const { error } = validateCustomer(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
@@ -57,9 +57,9 @@ router.post('/', async(req, res) => {
 
     customer = await customer.save();
     res.send(customer);
-});
+})
 
-router.put('/:id', async(req, res) => {
+.put('/:id', async(req, res) => {
     const { error } = validateCustomer(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
@@ -72,9 +72,9 @@ router.put('/:id', async(req, res) => {
     if (!customer) return res.status(404).send('The customer with the given ID was not found.');
 
     res.send(customer);
-});
+})
 
-router.patch('/:id', async(req, res) => {
+.patch('/:id', async(req, res) => {
     const { error } = validateCustomerPatchReqest(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
@@ -87,9 +87,9 @@ router.patch('/:id', async(req, res) => {
     if (!customer) return res.status(404).send('The customer with the given ID was not found.');
 
     res.send(customer);
-});
+})
 
-router.delete('/:id', async(req, res) => {
+.delete('/:id', async(req, res) => {
     console.log(req.param.id)
     const customer = await Customer.findByIdAndRemove(req.params.id);
     if (!customer) return res.status(404).send('The customer with the given ID was not found.');
@@ -98,9 +98,9 @@ router.delete('/:id', async(req, res) => {
         id: customer._id,
         deleted: true
     });
-});
+})
 
-router.get('/:id', async(req, res) => {
+.get('/:id', async(req, res) => {
     const customer = await Customer.findById(req.params.id);
 
     if (!customer) return res.status(404).send('The customer with the given ID was not found.');
@@ -127,4 +127,5 @@ function validateCustomerPatchReqest(customer) {
     };
     return Joi.validate(customer, schema);
 }
+
 module.exports = router;
