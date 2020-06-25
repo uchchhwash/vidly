@@ -1,5 +1,5 @@
 const { isEmail, isMobilePhone } = require("validator")
-const Joi = require('joi');
+const Joi = require("joi");
 const mongoose = require("mongoose") //.set("debug", true);
 
 const customerSchema = new mongoose.Schema({

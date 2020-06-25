@@ -1,13 +1,13 @@
 const { Customer, validate, validatePatch } = require("../models/customer")
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-router.get('/', async(req, res) => {
+router.get("/", async(req, res) => {
     const customers = await Customer.find().sort("name");
     res.send(customers);
 })
 
-.post('/', async(req, res) => {
+.post("/", async(req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
@@ -22,7 +22,7 @@ router.get('/', async(req, res) => {
     res.send(customer);
 })
 
-.put('/:id', async(req, res) => {
+.put("/:id", async(req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
@@ -32,12 +32,12 @@ router.get('/', async(req, res) => {
         new: true
     });
 
-    if (!customer) return res.status(404).send('The customer with the given ID was not found.');
+    if (!customer) return res.status(404).send("The customer with the given ID was not found.");
 
     res.send(customer);
 })
 
-.patch('/:id', async(req, res) => {
+.patch("/:id", async(req, res) => {
     const { error } = validatePatch(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
@@ -47,15 +47,15 @@ router.get('/', async(req, res) => {
         new: true
     });
 
-    if (!customer) return res.status(404).send('The customer with the given ID was not found.');
+    if (!customer) return res.status(404).send("The customer with the given ID was not found.");
 
     res.send(customer);
 })
 
-.delete('/:id', async(req, res) => {
+.delete("/:id", async(req, res) => {
     console.log(req.param.id)
     const customer = await Customer.findByIdAndRemove(req.params.id);
-    if (!customer) return res.status(404).send('The customer with the given ID was not found.');
+    if (!customer) return res.status(404).send("The customer with the given ID was not found.");
 
     res.send({
         id: customer._id,
@@ -63,10 +63,10 @@ router.get('/', async(req, res) => {
     });
 })
 
-.get('/:id', async(req, res) => {
+.get("/:id", async(req, res) => {
     const customer = await Customer.findById(req.params.id);
 
-    if (!customer) return res.status(404).send('The customer with the given ID was not found.');
+    if (!customer) return res.status(404).send("The customer with the given ID was not found.");
 
     res.send(customer);
 });
