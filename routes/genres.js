@@ -1,13 +1,20 @@
+const mongoose = require("mongoose");
 const express = require('express');
 const router = express.Router();
 
-const genres = [
-    { id: 1, name: 'Action' },
-    { id: 2, name: 'Horror' },
-    { id: 3, name: 'Romance' },
-];
+const genreSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+        minlength: 5,
+        maxlength: 50
+    }
+})
+
+const Genre = new mongoose.model("Genre", genreSchema);
 
 router.get('/', (req, res) => {
+    const genres = await Genre.find().sort("name");
     res.send(genres);
 });
 
