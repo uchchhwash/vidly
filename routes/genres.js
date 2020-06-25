@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+const Joi = require('joi');
+const mongoose = require("mongoose") //.set("debug", true);
 const express = require('express');
 const router = express.Router();
 
@@ -41,15 +42,16 @@ router.put('/:id', async(req, res) => {
     res.send(genre);
 });
 
-router.delete('/:id', (req, res) => {
-    const genre = await Genre.findByIdAndRemove(req.param.id);
+router.delete('/:id', async(req, res) => {
+    console.log(req.param.id)
+    const genre = await Genre.findByIdAndRemove(req.params.id);
     if (!genre) return res.status(404).send('The genre with the given ID was not found.');
 
     res.send(genre);
 });
 
-router.get('/:id', (req, res) => {
-    const genre = await Genre.findById(req.param.id);
+router.get('/:id', async(req, res) => {
+    const genre = await Genre.findById(req.params.id);
     if (!genre) return res.status(404).send('The genre with the given ID was not found.');
     res.send(genre);
 });
