@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
 const logger = require("./middleware/logger");
+const auth = require("./routes/auth");
 const users = require("./routes/users");
 const rentals = require("./routes/rentals");
 const movies = require("./routes/movies");
@@ -28,6 +29,7 @@ app.use(express.static("public"));
 app.use(helmet());
 app.use(logger);
 
+app.use("/api/users", auth);
 app.use("/api/users", users);
 app.use("/api/rentals", rentals);
 app.use("/api/movies", movies);
