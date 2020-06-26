@@ -5,7 +5,10 @@ const helmet = require("helmet");
 const mongoose = require("mongoose");
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
+
 const logger = require("./middleware/logger");
+const error = require("./middleware/error");
+
 const auth = require("./routes/auth");
 const users = require("./routes/users");
 const rentals = require("./routes/rentals");
@@ -13,6 +16,7 @@ const movies = require("./routes/movies");
 const customers = require("./routes/customers");
 const genres = require("./routes/genres");
 const home = require("./routes/home");
+
 const express = require("express");
 const app = express();
 
@@ -25,15 +29,15 @@ mongoose.connect("mongodb://localhost/vidly", { useNewUrlParser: true, useUnifie
     .then(() => console.log("Connected to MongoDB..."))
     .catch((err) => console.error("Could Not Connect to MongoDB"))
 
-app.set("view engine", "pug");
-app.set("views", "./views"); // default
+// app.set("view engine", "pug");
+// app.set("views", "./views"); // default
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
-app.use(helmet());
+// app.use(express.urlencoded({ extended: true }));
+// app.use(express.static("public"));
+// app.use(helmet());
 // app.use(logger);
-
+app.use(error);
 app.use("/api/auth", auth);
 app.use("/api/users", users);
 app.use("/api/rentals", rentals);
