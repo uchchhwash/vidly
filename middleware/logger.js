@@ -1,19 +1,18 @@
-function log(req, res, next) {
-    console.log('Logging...');
-    next();
-}
+const winston = require("winston");
+const { transports, createLogger, format } = require('winston');
+require("winston-mongodb");
+const logger = createLogger({
+    format: format.combine(
+        format.timestamp(),
+        format.json(),
+        format.splat(),
+        // format.prettyPrint()
+    ),
+    transports: [
+        new transports.Console(),
+        new transports.File({ filename: "logfile.log", level: "error" }),
+        new winston.transports.MongoDB({ db: "mongodb://localhost/vidly" })
+    ]
+});
 
-module.exports = log;
-
-// const logger = winston.createLogger({
-//   format: winston.format.combine(
-//       winston.format.timestamp(),
-//       winston.format.json(),
-//       winston.format.errors(),
-//       winston.format.metadata()
-//   ),
-//   transports: [
-//       new winston.transports.File({ filename: 'logfile.log' }),
-//       new winston.transports.Console()
-//   ],
-// });
+module.exports = logger;

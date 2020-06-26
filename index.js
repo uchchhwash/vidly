@@ -1,5 +1,4 @@
 require("express-async-errors");
-const winston = require("winston");
 const debug = require("debug")("app:startup");
 const config = require("config");
 const morgan = require("morgan");
@@ -8,7 +7,6 @@ const mongoose = require("mongoose");
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
 
-const logger = require("./middleware/logger");
 const error = require("./middleware/error");
 
 const auth = require("./routes/auth");
@@ -21,9 +19,6 @@ const home = require("./routes/home");
 
 const express = require("express");
 const app = express();
-
-winston.add(new winston.transports.Console());
-winston.add(new winston.transports.File({ filename: 'logfile.log' }));
 
 if (!config.get("jwtPrivateKey")) {
     console.error("FATAL ERROR : JWT PRIVATE KEY IS NOT DEFINED");
