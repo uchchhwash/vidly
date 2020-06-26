@@ -1,6 +1,6 @@
 const { isEmail, isMobilePhone } = require("validator")
 const Joi = require("joi");
-Joi.objectId = require("joi-objectid")(Joi);
+
 const mongoose = require("mongoose");
 
 
