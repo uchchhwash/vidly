@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
 const logger = require("./middleware/logger");
+const rentals = require("./routes/rentals");
 const movies = require("./routes/movies");
 const customers = require("./routes/customers");
 const genres = require("./routes/genres");
@@ -24,6 +25,7 @@ app.use(express.static("public"));
 app.use(helmet());
 app.use(logger);
 
+app.use("/api/rentals", rentals);
 app.use("/api/movies", movies);
 app.use("/api/customers", customers);
 app.use("/api/genres", genres);
