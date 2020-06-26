@@ -16,6 +16,11 @@ const home = require("./routes/home");
 const express = require("express");
 const app = express();
 
+if (!config.get("jwtPrivateKey")) {
+    console.error("FATAL ERROR : JWT PRIVATE KEY IS NOT DEFINED");
+    process.exit(1);
+}
+
 mongoose.connect("mongodb://localhost/vidly", { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log("Connected to MongoDB..."))
     .catch((err) => console.error("Could Not Connect to MongoDB"))
@@ -29,7 +34,7 @@ app.use(express.static("public"));
 app.use(helmet());
 app.use(logger);
 
-app.use("/api/users", auth);
+app.use("/api/auth", auth);
 app.use("/api/users", users);
 app.use("/api/rentals", rentals);
 app.use("/api/movies", movies);
