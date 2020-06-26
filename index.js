@@ -1,3 +1,4 @@
+require("express-async-errors");
 const debug = require("debug")("app:startup");
 const config = require("config");
 const morgan = require("morgan");
@@ -37,7 +38,7 @@ app.use(express.json());
 // app.use(express.static("public"));
 // app.use(helmet());
 // app.use(logger);
-app.use(error);
+
 app.use("/api/auth", auth);
 app.use("/api/users", users);
 app.use("/api/rentals", rentals);
@@ -46,6 +47,7 @@ app.use("/api/customers", customers);
 app.use("/api/genres", genres);
 app.use("/", home);
 
+app.use(error);
 // Configuration
 // console.log("Application Name: " + config.get("name"));
 // console.log("Mail Server: " + config.get("mail.host"));
