@@ -23,11 +23,12 @@ router.get("/", async(req, res) => {
     })
 
     const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash([req.body.password, salt]);
+    user.password = await bcrypt.hash(req.body.password, salt);
 
     await user.save();
 
     res.send(_.pick(user, ["_id", "name", "email"]));
+
 })
 
 module.exports = router;
