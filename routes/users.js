@@ -1,3 +1,4 @@
+const auth = require("../middleware/auth");
 const bcrypt = require("bcryptjs");
 const _ = require("lodash");
 const { User, validate } = require("../models/user");
@@ -30,6 +31,11 @@ router.get("/", async(req, res) => {
     const token = user.generateAuthToken();
     res.header("x-auth-token", token).send(_.pick(user, ["_id", "name", "email"]));
 
+})
+
+.get("/me", auth, async(req, res) => {
+    const user = await User.findOne({ _id: req.user._id }).select("-password")
+    res.send(user);
 })
 
 module.exports = router;

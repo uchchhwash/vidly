@@ -32,7 +32,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(helmet());
-app.use(logger);
+// app.use(logger);
 
 app.use("/api/auth", auth);
 app.use("/api/users", users);
