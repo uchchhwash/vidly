@@ -1,6 +1,6 @@
+const logger = require("../middleware/logger");
+require("express-async-errors");
 module.exports = function() {
-    const logger = require("../middleware/logger")
-
     process.on("uncaughtException", (err) => {
         console.log("uncaught call");
         logger.error(err.message, { metadata: err });
