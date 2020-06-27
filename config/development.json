@@ -1,4 +1,4 @@
 {
     "name": "Vidly Rental App",
-    "jwtPrivateKey": ""
+    "jwtPrivateKey": "DevTestEnv"
 }
