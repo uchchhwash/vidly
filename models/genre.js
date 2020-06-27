@@ -20,6 +20,12 @@ function validateGenre(genre) {
     return Joi.validate(genre, schema);
 }
 
+function validateGenreId(id) {
+    var ObjectId = mongoose.Types.ObjectId;
+    return (ObjectId.isValid(id))
+}
+
 exports.Genre = Genre;
 exports.validate = validateGenre;
+exports.validateId = validateGenreId;
 exports.genreSchema = genreSchema;
