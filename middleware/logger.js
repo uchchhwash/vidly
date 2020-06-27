@@ -10,9 +10,10 @@ const logger = createLogger({
     ),
     transports: [
         new transports.Console(),
-        new transports.File({ filename: "logfile.log", level: "error" }),
-        new winston.transports.MongoDB({ db: "mongodb://localhost/vidly" })
-    ]
+        // new transports.File({ filename: "logfile.log", level: "error" }),
+        new winston.transports.MongoDB({ db: "mongodb://localhost/vidly", metaKey: 'meta' })
+    ],
+
 });
 
 module.exports = logger;
