@@ -7,19 +7,12 @@ const mongoose = require("mongoose");
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
 
-const error = require("./middleware/error");
 const logger = require("./middleware/logger")
-
-const auth = require("./routes/auth");
-const users = require("./routes/users");
-const rentals = require("./routes/rentals");
-const movies = require("./routes/movies");
-const customers = require("./routes/customers");
-const genres = require("./routes/genres");
-const home = require("./routes/home");
 
 const express = require("express");
 const app = express();
+
+require("./startup/routes")(app)
 
 process.on("uncaughtException", (err) => {
     logger.error(err.message, { metadata: err });
@@ -43,21 +36,12 @@ mongoose.connect("mongodb://localhost/vidly", { useNewUrlParser: true, useUnifie
 // app.set("view engine", "pug");
 // app.set("views", "./views"); // default
 
-app.use(express.json());
+
 // app.use(express.urlencoded({ extended: true }));
 // app.use(express.static("public"));
 // app.use(helmet());
-// app.use(logger);
 
-app.use("/api/auth", auth);
-app.use("/api/users", users);
-app.use("/api/rentals", rentals);
-app.use("/api/movies", movies);
-app.use("/api/customers", customers);
-app.use("/api/genres", genres);
-app.use("/", home);
 
-app.use(error);
 // Configuration
 // console.log("Application Name: " + config.get("name"));
 // console.log("Mail Server: " + config.get("mail.host"));
