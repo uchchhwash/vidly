@@ -1,8 +1,9 @@
 module.exports = function() {
     require("express-async-errors");
-    const logger = require("./middleware/logger")
+    const logger = require("../middleware/logger")
 
     process.on("uncaughtException", (err) => {
+        console.log("uncaught call");
         logger.error(err.message, { metadata: err });
         process.exit(1);
     })
@@ -11,9 +12,4 @@ module.exports = function() {
         logger.error(err.message, { metadata: err });
         process.exit(1);
     })
-
-    if (!config.get("jwtPrivateKey")) {
-        console.error("FATAL ERROR : JWT PRIVATE KEY IS NOT DEFINED");
-        process.exit(1);
-    }
 }
