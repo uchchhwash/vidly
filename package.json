@@ -1,4 +1,8 @@
 {
+    "moduleDirectories": [
+        "node_modules",
+        "src"
+    ],
     "name": "vidly",
     "version": "1.0.0",
     "main": "index.js",
