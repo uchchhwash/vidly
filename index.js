@@ -8,6 +8,7 @@ const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
 
 const error = require("./middleware/error");
+const logger = require("./middleware/logger")
 
 const auth = require("./routes/auth");
 const users = require("./routes/users");
@@ -19,6 +20,10 @@ const home = require("./routes/home");
 
 const express = require("express");
 const app = express();
+
+process.on("uncaughtException", (err) => {
+    logger.error(err.message, { metadata: err });
+})
 
 if (!config.get("jwtPrivateKey")) {
     console.error("FATAL ERROR : JWT PRIVATE KEY IS NOT DEFINED");
