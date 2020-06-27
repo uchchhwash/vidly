@@ -34,9 +34,6 @@ describe("/api/genres", () => {
             expect(JSON.stringify(res.body)).toEqual(JSON.stringify(genre));
 
         });
-    })
-
-    describe("GET /:id", () => {
         it("should return 404 if invalid id is passed", async() => {
             const genre = new Genre({ name: "genre1" });
             await genre.save();
