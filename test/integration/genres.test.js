@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const request = require("supertest");
 const { Genre } = require("../../models/genre");
-const c = require("config");
 let server;
 
 describe("/api/genres", () => {
@@ -13,6 +12,7 @@ describe("/api/genres", () => {
         server.close();
         await Genre.remove({});
     })
+
     describe("GET /", () => {
         it("should return all genres", async() => {
             await Genre.collection.insertMany([{ name: "genre1" }, { name: "genre2" }]);
@@ -23,17 +23,7 @@ describe("/api/genres", () => {
             expect(res.body.some(g => g.name === "genre2")).toBeTruthy();
         });
     })
-})
 
-
-describe("/api/genres/:id", () => {
-    beforeEach(() => {
-        server = require("../../index");
-    })
-    afterEach(async() => {
-        server.close();
-        await Genre.remove({});
-    })
     describe("GET /:id", () => {
         it("return the request genre only", async() => {
             const genre = new Genre({ name: "genre1" });
@@ -45,6 +35,7 @@ describe("/api/genres/:id", () => {
 
         });
     })
+
     describe("GET /:id", () => {
         it("should return 404 if invalid id is passed", async() => {
             const genre = new Genre({ name: "genre1" });
@@ -53,5 +44,4 @@ describe("/api/genres/:id", () => {
             expect(res.status).toBe(404);
         });
     })
-
 })
