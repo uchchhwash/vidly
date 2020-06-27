@@ -3,7 +3,6 @@ const debug = require("debug")("app:startup");
 const config = require("config");
 const morgan = require("morgan");
 const helmet = require("helmet");
-const mongoose = require("mongoose");
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
 
@@ -13,6 +12,7 @@ const express = require("express");
 const app = express();
 
 require("./startup/routes")(app)
+require("./startup/db")();
 
 process.on("uncaughtException", (err) => {
     logger.error(err.message, { metadata: err });
@@ -29,9 +29,7 @@ if (!config.get("jwtPrivateKey")) {
     process.exit(1);
 }
 
-mongoose.connect("mongodb://localhost/vidly", { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log("Connected to MongoDB..."))
-    .catch((err) => console.error("Could Not Connect to MongoDB"))
+
 
 // app.set("view engine", "pug");
 // app.set("views", "./views"); // default
