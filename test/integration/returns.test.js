@@ -29,8 +29,8 @@ describe("api/returns", () => {
         await rental.save();
     })
     afterEach(async() => {
-        server.close();
         await Rental.deleteMany({});
+        await server.close();
     })
 
     it("should return 401 is client is not logged in", async() => {
