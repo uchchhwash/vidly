@@ -40,6 +40,12 @@ describe("/api/genres", () => {
             const res = await request(server).get("/api/genres/" + 1);
             expect(res.status).toBe(404);
         });
+        it("should return 404 if valid id is passed but ID dont exist in DB", async() => {
+            const genre = new Genre({ name: "genre1" });
+            await genre.save();
+            const res = await request(server).get("/api/genres/" + mongoose.Types.ObjectId().toHexString());
+            expect(res.status).toBe(404);
+        });
     })
 
     describe("POST /", () => {
