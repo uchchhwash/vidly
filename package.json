@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
-        "test": "jest --watchAll --verbose --runInBand --detectOpenHandles --coverage",
+        "test": "jest --watchAll --verbose --runInBand --detectOpenHandles",
         "start": "nodemon index.js"
     },
     "keywords": [],
