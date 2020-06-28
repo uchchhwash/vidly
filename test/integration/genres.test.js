@@ -9,7 +9,6 @@ describe("/api/genres", () => {
         server = require("../../index");
     })
     afterEach(async() => {
-        console.log("called")
         server.close();
         await Genre.remove({});
     })
@@ -53,12 +52,6 @@ describe("/api/genres", () => {
                 .set('x-auth-token', token)
                 .send({ name })
         }
-        const exec2 = async() => {
-            return await request(server)
-                .post('/api/genres')
-                .set('x-auth-token', token)
-                .send({ name: "genre1" })
-        }
 
         beforeEach(() => {
             token = new User().generateAuthToken();
@@ -87,7 +80,7 @@ describe("/api/genres", () => {
         });
 
         it("should save the genre if genre is valid", async() => {
-            const res = await exec2();
+            const res = await exec();
             const genre = await Genre.find({ name })
 
             expect(res.status).toBe(200);
