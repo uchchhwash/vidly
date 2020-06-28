@@ -11,7 +11,7 @@ describe("auth middleware", () => {
         token = new User().generateAuthToken();
     })
     afterEach(async() => {
-        await Genre.remove({});
+        await Genre.deleteMany({});
         server.close();
     })
 
