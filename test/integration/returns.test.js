@@ -2,6 +2,7 @@ const request = require("supertest");
 const { Rental } = require("../../models/rental");
 const { User } = require("../../models/user");
 const mongoose = require("mongoose");
+const { removeAllListeners } = require("../../middleware/logger");
 
 describe("api/returns", () => {
     let server;
@@ -60,9 +61,16 @@ describe("api/returns", () => {
         const res = await exec();
         expect(res.status).toBe(400);
     })
-    it("should return 400 if no rental found", async() => {
+    it("should return 400 if no rental found for considered customer/movie", async() => {
         await Rental.remove({});
         const res = await exec();
         expect(res.status).toBe(404);
+    })
+    it("should return 400 if return is already processed", async() => {
+        rental.dateReturned = new Date();
+        await rental.save();
+
+        const res = await exec();
+        expect(res.status).toBe(400);
     })
 })
