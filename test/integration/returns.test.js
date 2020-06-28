@@ -44,7 +44,7 @@ describe("api/returns", () => {
             .send({ customerId, movieId });
     }
 
-    it("should return 401 is client is not logged in", async() => {
+    it("should return 401 if client is not logged in", async() => {
         token = "";
         const res = await exec();
         expect(res.status).toBe(401);
@@ -55,9 +55,14 @@ describe("api/returns", () => {
         const res = await exec();
         expect(res.status).toBe(400);
     })
-    it("should return 400 is movieId is not provided", async() => {
+    it("should return 400 if movieId is not provided", async() => {
         movieId = "";
         const res = await exec();
         expect(res.status).toBe(400);
+    })
+    it("should return 400 if no rental found", async() => {
+        await Rental.remove({});
+        const res = await exec();
+        expect(res.status).toBe(404);
     })
 })
