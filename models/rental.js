@@ -1,5 +1,6 @@
 const { isEmail, isMobilePhone } = require("validator")
 const Joi = require("joi");
+const moment = require("moment");
 
 const mongoose = require("mongoose");
 
@@ -81,6 +82,14 @@ rentalSchema.statics.lookup = function(customerId, movieId) {
     });
 }
 
+rentalSchema.methods.returnFee = function() {
+    this.dateReturned = new Date();
+
+    let rentalDays = moment(this.dateReturned).diff(moment(this.dateOut), "days")
+    if (rentalDays === 0) rentalDays = 1;
+
+    this.rentalFee = rentalDays * this.movie.dailyRentalRate;
+}
 const Rental = mongoose.model("Rental", rentalSchema);
 
 function validateRental(rental) {
