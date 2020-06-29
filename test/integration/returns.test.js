@@ -1,8 +1,8 @@
+const moment = require("moment");
 const request = require("supertest");
 const { Rental } = require("../../models/rental");
 const { User } = require("../../models/user");
 const mongoose = require("mongoose");
-const { removeAllListeners } = require("../../middleware/logger");
 
 describe("api/returns", () => {
     let server;
@@ -84,5 +84,15 @@ describe("api/returns", () => {
         expect(diff).toBeLessThan(10 * 1000);
         expect(rentalInDb.dateReturned).toBeDefined();
 
+    })
+    it("should set the rental fee if input is valid", async() => {
+        rental.dateOut = moment().add(-7, "days").toDate();
+        await rental.save();
+
+        const res = await exec();
+        const rentalInDb = await Rental.findById(rental._id)
+        const fee = (moment(rentalInDb.dateReturned)).diff((moment(rentalInDb.dateOut)), "days") * rentalInDb.movie.dailyRentalRate;
+        console.log(fee)
+        expect(fee).toBe(14);
     })
 })
