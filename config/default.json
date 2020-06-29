@@ -1,5 +1,5 @@
 {
     "name": "Vidly Rental App",
     "jwtPrivateKey": "",
-    "db": "mongodb://localhost/vidly"
+    "db": ""
 }
