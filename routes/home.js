@@ -1,8 +1,14 @@
 const express = require("express");
 const router = express.Router();
+const config = require("config");
 
 router.get("/", (req, res) => {
-    res.render("index", { title: "My Express App", message: "Hello" });
+    res.status(200).send({
+            name: config.get("name"),
+            version: config.get("version"),
+            status: "SERVER IS UP & RUNNING"
+        })
+        // res.render("index", { title: "My Express App", message: "Hello" });
 });
 
 module.exports = router;

@@ -1,5 +1,6 @@
 {
     "name": "Vidly Rental App",
+    "version": "1.0.0",
     "jwtPrivateKey": "",
     "db": ""
 }
