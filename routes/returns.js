@@ -1,3 +1,4 @@
+const moment = require("moment");
 const { Rental } = require("../models/rental");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
@@ -15,7 +16,10 @@ router.post("/", auth, async(req, res) => {
     if (!rental) return res.status(404).send("Return not found");
     if (rental.dateReturned) return res.status(400).send("Rental Return already processed");
 
+    let dateDiff = moment(rental.dateReturned).diff(moment(rental.dateOut), "days")
+
     rental.dateReturned = new Date();
+    rental.rentalFee = dateDiff * rental.movie.dailyRentalRate;
     await rental.save();
     return res.status(200).send();
 })

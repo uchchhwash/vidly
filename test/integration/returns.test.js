@@ -92,7 +92,6 @@ describe("api/returns", () => {
         const res = await exec();
         const rentalInDb = await Rental.findById(rental._id)
         const fee = (moment(rentalInDb.dateReturned)).diff((moment(rentalInDb.dateOut)), "days") * rentalInDb.movie.dailyRentalRate;
-        console.log(fee)
-        expect(fee).toBe(14);
+        expect(rentalInDb.rentalFee).toBe(fee);
     })
 })
