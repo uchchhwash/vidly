@@ -1,5 +1,6 @@
 const moment = require("moment");
 const { Rental } = require("../models/rental");
+const { Movie } = require("../models/movie");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 const express = require("express");
@@ -13,6 +14,7 @@ router.post("/", auth, async(req, res) => {
         "customer._id": req.body.customerId,
         "movie._id": req.body.movieId
     });
+
     if (!rental) return res.status(404).send("Return not found");
     if (rental.dateReturned) return res.status(400).send("Rental Return already processed");
 
@@ -21,6 +23,7 @@ router.post("/", auth, async(req, res) => {
     rental.dateReturned = new Date();
     rental.rentalFee = dateDiff * rental.movie.dailyRentalRate;
     await rental.save();
+    const result = await Movie.findOneAndUpdate({ _id: rental.movie._id }, { $inc: { numberInStock: 1 } }, { new: true })
     return res.status(200).send();
 })
 
