@@ -4,7 +4,10 @@
     "main": "index.js",
     "scripts": {
         "test": "jest --watchAll --verbose --runInBand --detectOpenHandles",
-        "start": "nodemon index.js"
+        "start": "node index.js"
+    },
+    "engine": {
+        "node": "12.16.3"
     },
     "keywords": [],
     "author": "",
