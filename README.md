@@ -142,8 +142,9 @@ The API will return  error types with multiple different error messages when req
 - run the postman collection to test all endpoints
 
 Postman Collection has Development & Production Enviroment. Configure the domain url as your need.
->**From Auth Register A User To Get The The Access Token In Header Response or Make a Request With Auth Endpoint With The Registered Username & Password To Get The Token In Response Request. Auth Token Will Be Automatically Updated Into The Postman Enviroment.**
-Run the collection and play around with the endpoints within folders `executive-producer`, `casting-director` and `casting-assisant`.
+>**From Auth Register A User To Get The The Access Token In Header Response or Make a Request With Auth Endpoint With 
+The Registered Username & Password To Get The Token In Response Request. Auth Token Will Be Automatically Updated Into 
+The Postman Enviroment.**
 
 ## Running the Unit Tests & Integrations Tests
 To run the unit & Integrations tests just type the command `npm test` in the project directory. Make Sure To Follow The Installation and Configuration Instructions.
@@ -161,10 +162,8 @@ heroku login
 ```bash
 heroku create appname
 ```
-* Create 2 databases by running the following command twice. One for application and other one to use during the test.
-```bash
-heroku addons:create heroku-postgresql:hobby-dev --app appname
-```
+* Create a database at MongoDB Atlas for free and get the connection string and set in the enviroment variable on the project settings.
+* 
 
 * Initialize git in the project directory
 ```bash
