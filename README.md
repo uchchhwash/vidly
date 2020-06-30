@@ -3,7 +3,6 @@
 
 Vidly is a videl rental application responsible for adding and managing movies and customers and most important thing the rentals and returns.
 This project uses node.js express, mongoDB and the backend is currently hosted on Heroku.
-This project uses python, flask and postgresql for it's backend and is hosted on Heroku.
 #### https://vidly-rental-app.herokuapp.com/api
 
 All backend code follows  standard javascript ES6 conventions and coding styles. All codes are written in clean and all files are structured very well.
@@ -81,7 +80,7 @@ Click on the login button and signup. Note down the access token from the URL fo
     -   Can Create A Rental
     -   Can See All Rentals
     -   Can Return A Rental
-    -   Can View All Customers
+    -   Can Add, Edit, View All Customers
     
 -   **Admin**
     -   All Permissons of a User and…
@@ -89,7 +88,7 @@ Click on the login button and signup. Note down the access token from the URL fo
     -   Add, Edit, Delete Genres
     -   Can Create, View All Rentals
     -   Can Return Rentals
-    -   Add, Edit, Delete Customers
+    -   Can Add, Edit, Delete Customers
     -   View Server Logs
     
 
@@ -100,7 +99,8 @@ Click on the login button and signup. Note down the access token from the URL fo
 -   Users
     -   GET /api/users
     -   GET /api/users/:id
-    -   POST /api/genres
+    -   POST /api/users    
+    -   DELETE /api/users
 -   Genres
     -   GET /api/genres
     -   GET /api/genres/:id
@@ -133,8 +133,6 @@ Click on the login button and signup. Note down the access token from the URL fo
 https://documenter.getpostman.com/view/11574085/T17CEVyR?version=latest
 
 
-```
-
 The API will return  error types with multiple different error messages when requests fails:
 
 ## Testing
@@ -166,7 +164,6 @@ heroku login
 heroku create appname
 ```
 * Create a database at MongoDB Atlas for free and get the connection string and set in the enviroment variable on the project settings.
-* 
 
 * Initialize git in the project directory
 ```bash
