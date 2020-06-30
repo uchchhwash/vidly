@@ -127,8 +127,11 @@ Click on the login button and signup. Note down the access token from the URL fo
     -   POST /api/rentals
 -   Returns
     -   POST /api/returns
+-   Logs
+    -   GET /api/logs
 ### Full Documentation OF API Can Be Found Here
 https://documenter.getpostman.com/view/11574085/T17CEVyR?version=latest
+
 
 ```
 
@@ -163,6 +166,7 @@ heroku login
 heroku create appname
 ```
 * Create a database at MongoDB Atlas for free and get the connection string and set in the enviroment variable on the project settings.
+* 
 
 * Initialize git in the project directory
 ```bash
