@@ -4,7 +4,7 @@ const { Log } = require("../models/log")
 const express = require("express");
 const router = express.Router();
 
-router.get("/", async(req, res) => {
+router.get("/", [auth, admin], async(req, res) => {
     const paginationLimit = req.query.limit ? parseInt(req.query.limit) : 10;
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const logs = await Log.find({})
