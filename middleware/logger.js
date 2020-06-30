@@ -16,7 +16,7 @@ if (process.env.NODE_ENV !== "test") {
         ),
         transports: [
             new winston.transports.Console(),
-            new winston.transports.MongoDB({ db: config.get("db"), metaKey: "metadata", options: { useUnifiedTopology: true } }),
+            new winston.transports.MongoDB({ db: config.get("db"), metaKey: "metadata", options: { useUnifiedTopology: true }, collection: "logs" }),
             // new transports.File({ filename: "logfile.log", level: "error" }),
         ],
     });

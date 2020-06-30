@@ -163,7 +163,6 @@ heroku login
 heroku create appname
 ```
 * Create a database at MongoDB Atlas for free and get the connection string and set in the enviroment variable on the project settings.
-* 
 
 * Initialize git in the project directory
 ```bash
