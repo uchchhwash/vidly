@@ -1,13 +1,15 @@
+const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
 const { Customer, validate, validatePatch } = require("../models/customer")
 const express = require("express");
 const router = express.Router();
 
-router.get("/", async(req, res) => {
+router.get("/", auth, async(req, res) => {
     const customers = await Customer.find().sort("name");
     res.send(customers);
 })
 
-.post("/", async(req, res) => {
+.post("/", auth, async(req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
@@ -22,7 +24,7 @@ router.get("/", async(req, res) => {
     res.send(customer);
 })
 
-.put("/:id", async(req, res) => {
+.put("/:id", auth, async(req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
@@ -37,7 +39,7 @@ router.get("/", async(req, res) => {
     res.send(customer);
 })
 
-.patch("/:id", async(req, res) => {
+.patch("/:id", auth, async(req, res) => {
     const { error } = validatePatch(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
@@ -52,7 +54,7 @@ router.get("/", async(req, res) => {
     res.send(customer);
 })
 
-.delete("/:id", async(req, res) => {
+.delete("/:id", [auth, admin], async(req, res) => {
     console.log(req.param.id)
     const customer = await Customer.findByIdAndRemove(req.params.id);
     if (!customer) return res.status(404).send("The customer with the given ID was not found.");
