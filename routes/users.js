@@ -35,9 +35,19 @@ router.get("/", [auth, admin], async(req, res) => {
 
 })
 
+
 .get("/me", auth, async(req, res) => {
     const user = await User.findOne({ _id: req.user._id }).select("-password")
     res.send(user);
 })
 
+.delete("/", async(req, res) => {
+    const user = await User.findByIdAndRemove(req.params.id);
+    if (!user) return res.status(404).send("The customer with the given ID was not found.");
+
+    res.send({
+        id: user._id,
+        deleted: true
+    });
+})
 module.exports = router;
