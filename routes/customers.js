@@ -13,14 +13,19 @@ router.get("/", auth, async(req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    let customer = new Customer({
-        name: req.body.name,
-        isGold: req.body.isGold,
-        phone: req.body.phone,
-        email: req.body.email
+    let customerCredential = new CustomerCredentials({
+        email: req.body.email,
+        password: req.body.password
     })
 
-    customer = await customer.save();
+    // let customer = new Customer({
+    //     name: req.body.name,
+    //     isGold: req.body.isGold,
+    //     phone: req.body.phone,
+    //     email: req.body.email
+    // })
+
+    customerCredential = await customerCredential.save();
     res.send(customer);
 })
 
