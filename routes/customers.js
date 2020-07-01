@@ -1,5 +1,6 @@
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
+const validateIbjectId = require("../middleware/validateObjectId");
 const { Customer, CustomerCredentials, validate, validatePatch, validateSignUp } = require("../models/customer")
 const express = require("express");
 const router = express.Router();
@@ -22,13 +23,12 @@ router.get("/", auth, async(req, res) => {
     res.send(customer);
 })
 
-.post("/customerInfo", async(req, res) => {
+.put("/customerInfo/:id", [auth, validateIbjectId], async(req, res) => {
 
     let customer = new Customer({
         name: req.body.name,
         isGold: req.body.isGold,
         phone: req.body.phone,
-        email: req.body.email
     })
 
     customerCredential = await customerCredential.save();
