@@ -3,6 +3,9 @@ const Joi = require("joi");
 const mongoose = require("mongoose") //.set("debug", true);
 
 const customerSchema = new mongoose.Schema({
+    _id: {
+        type: mongoose.Types.ObjectId
+    },
     name: {
         type: String,
         required: true,
