@@ -45,8 +45,7 @@ router.get("/", auth, async(req, res) => {
     const customer = await CustomerCredentials.findById(req.user._id)
 
     const validPassword = await bcrypt.compare(req.body.oldPassword, customer.password)
-    if (!validPassword) return res.status(400).send("invalid Old Password");
-
+    if (!validPassword) return res.status(400).send("Invalid Old Password");
 
     const salt = await bcrypt.genSalt(10);
     customer.password = await bcrypt.hash(req.body.password, salt);
