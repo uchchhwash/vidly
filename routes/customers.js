@@ -36,6 +36,7 @@ router.get("/", auth, async(req, res) => {
 
     const token = customer.generateAuthToken();
     res.header("x-auth-token", token).send(customerInfo);
+
 })
 
 

@@ -1,3 +1,5 @@
+const config = require("config");
+const jwt = require("jsonwebtoken");
 const { isEmail, isMobilePhone } = require("validator")
 const Joi = require("joi");
 const mongoose = require("mongoose") //.set("debug", true);
@@ -47,11 +49,11 @@ const customerCredentialsSchema = new mongoose.Schema({
     }
 })
 
-const CustomerCredentials = new mongoose.model("CustomerCredential", customerCredentialsSchema);
-
 customerCredentialsSchema.methods.generateAuthToken = function() {
     return jwt.sign({ _id: this._id, isGold: this.isGold }, config.get("jwtPrivateKey"));
 }
+
+const CustomerCredentials = new mongoose.model("CustomerCredential", customerCredentialsSchema);
 
 function validateCustomer(customer) {
     const schema = {
