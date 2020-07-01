@@ -1,7 +1,6 @@
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
-const { Customer, validate, validatePatch } = require("../models/customer")
-const { CustomerCredentials, validateSignUp } = require("../models/customerCredentials")
+const { Customer, CustomerCredentials, validate, validatePatch, validateSignUp } = require("../models/customer")
 const express = require("express");
 const router = express.Router();
 
