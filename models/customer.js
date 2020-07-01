@@ -66,7 +66,6 @@ function validateCustomerRequest(customer) {
         name: Joi.string().min(5),
         isGold: Joi.boolean(),
         phone: Joi.string().min(11),
-        password: Joi.string().min(8).max(50).required(),
     };
     return Joi.validate(customer, schema);
 }
