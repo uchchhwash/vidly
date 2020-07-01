@@ -1,7 +1,7 @@
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
-const validateIbjectId = require("../middleware/validateObjectId");
-const { Customer, CustomerCredentials, validate, validatePatch, validateSignUp } = require("../models/customer")
+const validateObjectId = require("../middleware/validateObjectId");
+const { Customer, CustomerCredentials, validate, validatePatch } = require("../models/customer")
 const express = require("express");
 const router = express.Router();
 
@@ -11,28 +11,24 @@ router.get("/", auth, async(req, res) => {
 })
 
 .post("/signup", async(req, res) => {
-    const { error } = validateSignUp(req.body);
+    const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
     console.log(req.body)
     let customer = new CustomerCredentials({
         email: req.body.email,
         password: req.body.password
     })
-
     customer = await customer.save();
-    res.send(customer);
-})
 
-.put("/customerInfo/:id", [auth, validateIbjectId], async(req, res) => {
-
-    let customer = new Customer({
+    let customerInfo = new Customer({
+        _id: customer._id,
         name: req.body.name,
         isGold: req.body.isGold,
         phone: req.body.phone,
     })
 
-    customerCredential = await customerCredential.save();
-    res.send(customer);
+    customerInfo = await customerInfo.save();
+    res.send(customerInfo);
 })
 
 

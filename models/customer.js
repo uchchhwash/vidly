@@ -49,16 +49,11 @@ const customerCredentialsSchema = new mongoose.Schema({
 
 const CustomerCredentials = new mongoose.model("CustomerCredential", customerCredentialsSchema);
 
-function validateSignUp(customer) {
-    const schema = {
-        email: Joi.string().email({ minDomainAtoms: 2 }).required(),
-        password: Joi.string().min(8).max(50).required()
-    };
-    return Joi.validate(customer, schema);
-}
 
 function validateCustomer(customer) {
     const schema = {
+        email: Joi.string().email({ minDomainAtoms: 2 }).required(),
+        password: Joi.string().min(8).max(50).required(),
         name: Joi.string().min(5).required(),
         isGold: Joi.boolean(),
         phone: Joi.string().min(11).required(),
@@ -78,5 +73,4 @@ function validateCustomerPatchReqest(customer) {
 exports.Customer = Customer;
 exports.CustomerCredentials = CustomerCredentials;
 exports.validate = validateCustomer;
-exports.validateSignUp = validateSignUp;
 exports.validatePatch = validateCustomerPatchReqest;
