@@ -1,3 +1,5 @@
+const bcrypt = require("bcryptjs");
+const _ = require("lodash");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 const validateObjectId = require("../middleware/validateObjectId");
@@ -13,11 +15,14 @@ router.get("/", auth, async(req, res) => {
 .post("/signup", async(req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
-    console.log(req.body)
     let customer = new CustomerCredentials({
         email: req.body.email,
         password: req.body.password
     })
+
+    const salt = await bcrypt.genSalt(10);
+    customer.password = await bcrypt.hash(req.body.password, salt);
+
     customer = await customer.save();
 
     let customerInfo = new Customer({
@@ -28,7 +33,9 @@ router.get("/", auth, async(req, res) => {
     })
 
     customerInfo = await customerInfo.save();
-    res.send(customerInfo);
+
+    const token = customer.generateAuthToken();
+    res.header("x-auth-token", token).send(customerInfo);
 })
 
 

@@ -49,6 +49,9 @@ const customerCredentialsSchema = new mongoose.Schema({
 
 const CustomerCredentials = new mongoose.model("CustomerCredential", customerCredentialsSchema);
 
+customerCredentialsSchema.methods.generateAuthToken = function() {
+    return jwt.sign({ _id: this._id, isGold: this.isGold }, config.get("jwtPrivateKey"));
+}
 
 function validateCustomer(customer) {
     const schema = {
