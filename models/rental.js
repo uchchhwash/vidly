@@ -28,16 +28,16 @@ const rentalSchema = new mongoose.Schema({
                         message: "Invalid Mobile Number"
                     }
                 },
-                email: {
-                    type: String,
-                    required: true,
-                    validate: {
-                        validator: function(value) {
-                            return isEmail(value);
-                        },
-                        message: "Invalid Email"
-                    }
-                }
+                // email: {
+                //     type: String,
+                //     required: true,
+                //     validate: {
+                //         validator: function(value) {
+                //             return isEmail(value);
+                //         },
+                //         message: "Invalid Email"
+                //     }
+                // }
             }),
             required: true
         },
