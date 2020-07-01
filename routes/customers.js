@@ -39,6 +39,21 @@ router.get("/", auth, async(req, res) => {
 
 })
 
+.patch("/change-password", auth, async(req, res) => {
+    if (!req.body.password) return res.status(400).send("Provide A Password");
+    console.log(req.user)
+    const customer = await CustomerCredentials.findById(req.user._id)
+
+    const validPassword = await bcrypt.compare(req.body.oldPassword, customer.password)
+    if (!validPassword) return res.status(400).send("invalid Old Password");
+
+
+    const salt = await bcrypt.genSalt(10);
+    customer.password = await bcrypt.hash(req.body.password, salt);
+    await customer.save();
+    res.status(200).send("Password Changed Successful");
+})
+
 
 .put("/:id", auth, async(req, res) => {
     const { error } = validateRequest(req.body);
