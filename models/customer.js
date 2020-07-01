@@ -61,11 +61,12 @@ function validateCustomer(customer) {
     return Joi.validate(customer, schema);
 }
 
-function validateCustomerPatchReqest(customer) {
+function validateCustomerRequest(customer) {
     const schema = {
         name: Joi.string().min(5),
         isGold: Joi.boolean(),
         phone: Joi.string().min(11),
+        password: Joi.string().min(8).max(50).required(),
     };
     return Joi.validate(customer, schema);
 }
@@ -73,4 +74,4 @@ function validateCustomerPatchReqest(customer) {
 exports.Customer = Customer;
 exports.CustomerCredentials = CustomerCredentials;
 exports.validate = validateCustomer;
-exports.validatePatch = validateCustomerPatchReqest;
+exports.validateRequest = validateCustomerRequest;
