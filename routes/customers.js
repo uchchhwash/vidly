@@ -3,7 +3,7 @@ const _ = require("lodash");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 const validateObjectId = require("../middleware/validateObjectId");
-const { Customer, CustomerCredentials, validate, validateCustomerRequest } = require("../models/customer")
+const { Customer, CustomerCredentials, validate, validateRequest } = require("../models/customer")
 const express = require("express");
 const router = express.Router();
 
@@ -41,7 +41,7 @@ router.get("/", auth, async(req, res) => {
 
 
 .put("/:id", auth, async(req, res) => {
-    const { error } = validateCustomerRequest(req.body);
+    const { error } = validateRequest(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
     const customer = await Customer.findByIdAndUpdate(req.params.id, {
@@ -56,7 +56,7 @@ router.get("/", auth, async(req, res) => {
 })
 
 .patch("/:id", auth, async(req, res) => {
-    const { error } = validateCustomerRequest(req.body);
+    const { error } = validateRequest(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
     const customer = await Customer.findByIdAndUpdate(req.params.id, {
