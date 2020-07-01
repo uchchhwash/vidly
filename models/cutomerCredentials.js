@@ -31,4 +31,4 @@ function validateCustomer(customer) {
 
 
 exports.CustomerCredentials = CustomerCredentials;
-exports.validate = validateCustomer;
+exports.validateSignUp = validateCustomer;
