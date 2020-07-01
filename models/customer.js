@@ -25,16 +25,6 @@ const customerSchema = new mongoose.Schema({
             },
             message: "Invalid Mobile Number"
         }
-    },
-    email: {
-        type: String,
-        required: true,
-        validate: {
-            validator: function(value) {
-                return isEmail(value);
-            },
-            message: "Invalid Email"
-        }
     }
 })
 
@@ -57,12 +47,12 @@ const customerCredentialsSchema = new mongoose.Schema({
     }
 })
 
-const CustomerCredentials = new mongoose.model("CustomerCredentials", customerCredentialsSchema);
+const CustomerCredentials = new mongoose.model("CustomerCredential", customerCredentialsSchema);
 
 function validateSignUp(customer) {
     const schema = {
         email: Joi.string().email({ minDomainAtoms: 2 }).required(),
-        password: Joi.string().min(8).max(50).required(),
+        password: Joi.string().min(8).max(50).required()
     };
     return Joi.validate(customer, schema);
 }
@@ -72,7 +62,6 @@ function validateCustomer(customer) {
         name: Joi.string().min(5).required(),
         isGold: Joi.boolean(),
         phone: Joi.string().min(11).required(),
-        email: Joi.string().email({ minDomainAtoms: 2 }).required()
     };
     return Joi.validate(customer, schema);
 }
@@ -82,7 +71,6 @@ function validateCustomerPatchReqest(customer) {
         name: Joi.string().min(5),
         isGold: Joi.boolean(),
         phone: Joi.string().min(11),
-        email: Joi.string().email({ minDomainAtoms: 2 })
     };
     return Joi.validate(customer, schema);
 }
@@ -90,4 +78,5 @@ function validateCustomerPatchReqest(customer) {
 exports.Customer = Customer;
 exports.CustomerCredentials = CustomerCredentials;
 exports.validate = validateCustomer;
+exports.validateSignUp = validateSignUp;
 exports.validatePatch = validateCustomerPatchReqest;

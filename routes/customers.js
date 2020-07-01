@@ -9,25 +9,32 @@ router.get("/", auth, async(req, res) => {
     res.send(customers);
 })
 
-.post("/", auth, async(req, res) => {
-    const { error } = validate(req.body);
+.post("/signup", async(req, res) => {
+    const { error } = validateSignUp(req.body);
     if (error) return res.status(400).send(error.details[0].message);
-
-    let customerCredential = new CustomerCredentials({
+    console.log(req.body)
+    let customer = new CustomerCredentials({
         email: req.body.email,
         password: req.body.password
     })
 
-    // let customer = new Customer({
-    //     name: req.body.name,
-    //     isGold: req.body.isGold,
-    //     phone: req.body.phone,
-    //     email: req.body.email
-    // })
+    customer = await customer.save();
+    res.send(customer);
+})
+
+.post("/customerInfo", async(req, res) => {
+
+    let customer = new Customer({
+        name: req.body.name,
+        isGold: req.body.isGold,
+        phone: req.body.phone,
+        email: req.body.email
+    })
 
     customerCredential = await customerCredential.save();
     res.send(customer);
 })
+
 
 .put("/:id", auth, async(req, res) => {
     const { error } = validate(req.body);
