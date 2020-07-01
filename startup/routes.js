@@ -1,6 +1,6 @@
 const express = require("express");
 const auth = require("../routes/auth");
-const customerAuth = require("../routes/customerAuth");
+const authCustomer = require("../routes/auth-customer");
 const users = require("../routes/users");
 const returns = require("../routes/returns");
 const rentals = require("../routes/rentals");
@@ -14,7 +14,7 @@ const error = require("../middleware/error");
 module.exports = function(app) {
     app.use(express.json());
     app.use("/api/auth", auth);
-    app.use("/api/customerAuth", customerAuth);
+    app.use("/api/auth-customer", authCustomer);
     app.use("/api/users", users);
     app.use("/api/returns", returns);
     app.use("/api/rentals", rentals);
