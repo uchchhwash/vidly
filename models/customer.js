@@ -40,6 +40,33 @@ const customerSchema = new mongoose.Schema({
 
 const Customer = new mongoose.model("Customer", customerSchema);
 
+const customerCredentialsSchema = new mongoose.Schema({
+    email: {
+        type: String,
+        required: true,
+        validate: {
+            validator: function(value) {
+                return isEmail(value);
+            },
+            message: "Invalid Email"
+        }
+    },
+    password: {
+        type: String,
+        required: true,
+    }
+})
+
+const CustomerCredentials = new mongoose.model("CustomerCredentials", customerCredentialsSchema);
+
+function validateSignUp(customer) {
+    const schema = {
+        email: Joi.string().email({ minDomainAtoms: 2 }).required(),
+        password: Joi.string().min(8).max(50).required(),
+    };
+    return Joi.validate(customer, schema);
+}
+
 function validateCustomer(customer) {
     const schema = {
         name: Joi.string().min(5).required(),
@@ -61,5 +88,6 @@ function validateCustomerPatchReqest(customer) {
 }
 
 exports.Customer = Customer;
+exports.CustomerCredentials = CustomerCredentials;
 exports.validate = validateCustomer;
 exports.validatePatch = validateCustomerPatchReqest;
