@@ -8,11 +8,13 @@ const { Rental } = require("../models/rental")
 const express = require("express");
 const router = express.Router();
 
+//get all customers
 router.get("/", auth, async(req, res) => {
     const customers = await Customer.find().sort("name");
     res.send(customers);
 })
 
+//create a new customer
 .post("/signup", async(req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
@@ -40,6 +42,7 @@ router.get("/", auth, async(req, res) => {
 
 })
 
+//get all rentals of the authenticated customer
 .get("/rentals", auth, async(req, res) => {
     console.log(req.user)
     const rental = await Rental.find({ "customer._id": req.user });
@@ -60,7 +63,7 @@ router.get("/", auth, async(req, res) => {
     res.status(200).send("Password Changed Successful");
 })
 
-
+//update a customer information
 .put("/:id", auth, async(req, res) => {
     const { error } = validateRequest(req.body);
     if (error) return res.status(400).send(error.details[0].message);
@@ -76,6 +79,7 @@ router.get("/", auth, async(req, res) => {
     res.send(customer);
 })
 
+//update a specific information of a customer
 .patch("/:id", auth, async(req, res) => {
     const { error } = validateRequest(req.body);
     if (error) return res.status(400).send(error.details[0].message);
@@ -91,6 +95,7 @@ router.get("/", auth, async(req, res) => {
     res.send(customer);
 })
 
+//remove a customer
 .delete("/:id", [auth, admin], async(req, res) => {
     console.log(req.param.id)
     const customer = await Customer.findByIdAndRemove(req.params.id);
@@ -103,6 +108,7 @@ router.get("/", auth, async(req, res) => {
     });
 })
 
+//get a customer by id
 .get("/:id", auth, async(req, res) => {
     const customer = await Customer.findById(req.params.id);
 
@@ -110,8 +116,6 @@ router.get("/", auth, async(req, res) => {
 
     res.send(customer);
 })
-
-
 
 
 module.exports = router;
