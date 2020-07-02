@@ -4,6 +4,7 @@ const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 const validateObjectId = require("../middleware/validateObjectId");
 const { Customer, CustomerCredentials, validate, validateRequest } = require("../models/customer")
+const { Rental } = require("../models/rental")
 const express = require("express");
 const router = express.Router();
 
@@ -37,6 +38,12 @@ router.get("/", auth, async(req, res) => {
     const token = customer.generateAuthToken();
     res.header("x-auth-token", token).send(customerInfo);
 
+})
+
+.get("/rentals", auth, async(req, res) => {
+    console.log(req.user)
+    const rental = await Rental.find({ "customer._id": req.user });
+    res.status(200).send(rental);
 })
 
 .patch("/change-password", auth, async(req, res) => {
@@ -102,7 +109,9 @@ router.get("/", auth, async(req, res) => {
     if (!customer) return res.status(404).send("The customer with the given ID was not found.");
 
     res.send(customer);
-});
+})
+
+
 
 
 module.exports = router;
