@@ -96,6 +96,7 @@ Click on the login button and signup. Note down the access token from the URL fo
 ### Endpoints
 -   Auth
     -   /api/auth
+    -   /api/auth-customer
 -   Users
     -   GET /api/users
     -   GET /api/users/:id
@@ -117,6 +118,7 @@ Click on the login button and signup. Note down the access token from the URL fo
 -   Customers
     -   GET /api/customers
     -   GET /api/customers/:id
+    -   GET /api/customers/rentals
     -   POST /api/customers
     -   PUT /api/customers
     -   PATCH /api/customers
