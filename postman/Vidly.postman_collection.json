@@ -19,6 +19,9 @@
 									"var jsonData = pm.response.json();\r",
 									"postman.setEnvironmentVariable(\"userId\", jsonData._id);\r",
 									"\r",
+									"var token = pm.response.headers.get(\"x-auth-token\");\r",
+									"postman.setEnvironmentVariable(\"token\", token);\r",
+									"\r",
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});"
@@ -147,6 +150,346 @@
 			"protocolProfileBehavior": {}
 		},
 		{
+			"name": "customers",
+			"item": [
+				{
+					"name": "Post A Customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "709a90c4-2bb7-4ee4-90f5-b8819905a19d",
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"postman.setEnvironmentVariable(\"customerId\", jsonData._id);\r",
+									"\r",
+									"var token = pm.response.headers.get(\"x-auth-token\");\r",
+									"postman.setEnvironmentVariable(\"csToken\", token);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "e5f556d9-1714-4c52-96a4-ca6da8dcf2fd",
+								"exec": [
+									"\r",
+									"let timestamp = new Date().getTime();\r",
+									"let customerEmail = \"testCustomer\"+ timestamp + \"@gmail.com\";\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"customerEmail\", customerEmail);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"type": "text",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{customerEmail}}\",\r\n    \"password\": \"12345678\",\r\n    \"name\" : \"Customer\",\r\n    \"isGold\": true,\r\n    \"phone\": \"01600000000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/customers/signup",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"customers",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Customers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "02a868e0-0f7b-4fe4-b288-c0e4c0db0d40",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/customers?={{csToken}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"customers"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "{{csToken}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Customer By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "085380ed-bd83-4732-8368-412e8a866c3b",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{csToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/customers/{{customerId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"customers",
+								"{{customerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update A Customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4160105e-8e2f-430b-9434-5b48312f1c2e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{csToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"Florian Franklin\",\r\n    \"isGold\": true,\r\n    \"phone\": \"01800000000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/customers/{{customerId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"customers",
+								"{{customerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Specific Details Of A Customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "73721159-f99c-4354-8823-9693d238eb46",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{csToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"Jason Rhoads\",\r\n    \"isGold\": true,\r\n    \"phone\": \"01700000000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/customers/{{customerId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"customers",
+								"{{customerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change User Password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "01b54ad7-302e-4980-b649-33a97637f93d",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"type": "text",
+								"value": "{{csToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldPassword\": \"12345678\", \"password\": \"123456789\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/customers/change-password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"customers",
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Rentals",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "db3d9cb1-2b27-492a-99c8-d717b3e21b49",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{csToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/customers/{{customerId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"customers",
+								"{{customerId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
 			"name": "auth",
 			"item": [
 				{
@@ -201,6 +544,50 @@
 							]
 						},
 						"description": "Authenticate User Or Admin & Get Access Token"
+					},
+					"response": []
+				},
+				{
+					"name": "Customer Authentication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b75df997-57d1-4a53-8638-f6d22f01506d",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"csToken\", jsonData.token);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \"email\":\"{{customerEmail}}\",\r\n    \"password\": \"123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/auth-customer",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"auth-customer"
+							]
+						}
 					},
 					"response": []
 				}
@@ -608,241 +995,6 @@
 								"api",
 								"movies",
 								"{{movieId}}"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"protocolProfileBehavior": {}
-		},
-		{
-			"name": "customers",
-			"item": [
-				{
-					"name": "Post A Customer",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "7ccb0e00-7129-4941-886a-cc51307f8dbc",
-								"exec": [
-									"var jsonData = pm.response.json();\r",
-									"postman.setEnvironmentVariable(\"customerId\", jsonData._id);\r",
-									"\r",
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "x-auth-token",
-								"value": "{{token}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\" : \"Customer\",\r\n    \"isGold\": true,\r\n    \"phone\": \"01600000000\",\r\n    \"email\": \"customer@gmail.com\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/api/customers",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"api",
-								"customers"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Customers",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "02a868e0-0f7b-4fe4-b288-c0e4c0db0d40",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "x-auth-token",
-								"value": "{{token}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url}}/api/customers?={{token}}",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"api",
-								"customers"
-							],
-							"query": [
-								{
-									"key": "",
-									"value": "{{token}}"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Customer By ID",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "085380ed-bd83-4732-8368-412e8a866c3b",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "x-auth-token",
-								"value": "{{token}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url}}/api/customers/{{customerId}}",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"api",
-								"customers",
-								"{{customerId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update A Customer",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "4160105e-8e2f-430b-9434-5b48312f1c2e",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "x-auth-token",
-								"value": "{{token}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\" : \"Florian Franklin\",\r\n    \"isGold\": true,\r\n    \"phone\": \"01800000000\",\r\n    \"email\": \"florianTest@gmail.com\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/api/customers/{{customerId}}",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"api",
-								"customers",
-								"{{customerId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Specific Details Of A Customer",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "73721159-f99c-4354-8823-9693d238eb46",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "x-auth-token",
-								"value": "{{token}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\" : \"Jason Rhoads\",\r\n    \"isGold\": true,\r\n    \"phone\": \"01700000000\",\r\n    \"email\": \"testCustomer@gmail.com\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/api/customers/{{customerId}}",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"api",
-								"customers",
-								"{{customerId}}"
 							]
 						}
 					},
