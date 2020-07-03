@@ -3,20 +3,20 @@ const { isEmail } = require("validator");
 const { Customer } = require("./customer");
 const { User } = require("./user");
 
-const supportSchema = mongoose.Schema({
+const supportSchema = new mongoose.Schema({
     user: {
         type: mongoose.Types.ObjectId,
-        default: new mongoose.Types.ObjectId
+        default: mongoose.Types.ObjectId
     },
 
     title: {
         type: String,
-        minlength: 5,
+
         required: true
     },
     message: {
         type: String,
-        minlength: 5,
+
         required: true
     },
     email: {
