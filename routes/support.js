@@ -4,10 +4,10 @@ const { Support } = require("../models/support");
 const express = require("express");
 const router = express.Router();
 
-// router.get("/" [auth, admin], async(req, res) => {
-//     // const support = await Support.find({});
-//     // res.send(support);
-// })
+router.get("/", auth, async(req, res) => {
+    const support = await Support.find({});
+    res.send(support);
+})
 
 router.post("/", auth, async(req, res) => {
     let support = new Support({
@@ -20,5 +20,6 @@ router.post("/", auth, async(req, res) => {
     support = await support.save();
     res.send(support);
 })
+
 
 module.exports = router;

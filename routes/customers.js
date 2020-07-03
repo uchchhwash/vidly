@@ -45,6 +45,7 @@ router.get("/", auth, async(req, res) => {
 //get all rentals of the authenticated customer
 .get("/rentals", auth, async(req, res) => {
     console.log(req.user)
+    console.log("called")
     const rental = await Rental.find({ "customer._id": req.user });
     res.status(200).send(rental);
 })
